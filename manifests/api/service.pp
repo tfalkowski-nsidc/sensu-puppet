@@ -32,11 +32,34 @@ class sensu::api::service (
     }
 
     if $::osfamily != 'windows' {
-      service { 'sensu-api':
-        ensure     => $ensure,
-        enable     => $enable,
-        hasrestart => $hasrestart,
-        subscribe  => [ Class['sensu::package'], Class['sensu::api::config'], Class['sensu::redis::config'] ],
+
+      case $::operatingsystem {
+        /Debian/: {
+          if $::operatingsystem == 'Ubuntu' and $::operatingsystemmajrelease >= '15.10'{
+            service { 'sensu-api':
+              ensure     => $ensure,
+              provider   => systemd,
+              enable     => $enable,
+              hasrestart => $hasrestart,
+              subscribe  => [ Class['sensu::package'], Class['sensu::api::config'], Class['sensu::redis::config'] ],
+            }
+          } else {
+            service { 'sensu-api':
+              ensure     => $ensure,
+              enable     => $enable,
+              hasrestart => $hasrestart,
+              subscribe  => [ Class['sensu::package'], Class['sensu::api::config'], Class['sensu::redis::config'] ],
+            }
+          } 
+        } 
+        default: {
+          service { 'sensu-api':
+            ensure     => $ensure,
+            enable     => $enable,
+            hasrestart => $hasrestart,
+            subscribe  => [ Class['sensu::package'], Class['sensu::api::config'], Class['sensu::redis::config'] ],
+          }
+        }
       }
     }
   }
