@@ -60,7 +60,7 @@ describe 'sensu' do
       it { should contain_file('/etc/default/sensu').with(:content => /RUBYOPT="a"/) }
       it { should contain_file('/etc/default/sensu').with(:content => /GEM_PATH="\/foo"/) }
       it { should contain_file('/etc/default/sensu').with(:content => /CLIENT_DEREGISTER_ON_STOP=true/) }
-      it { should contain_file('/etc/default/sensu').with(:content => /CLIENT_DEREGISTER_HANDLER="example"/) } 
+      it { should contain_file('/etc/default/sensu').with(:content => /CLIENT_DEREGISTER_HANDLER="example"/) }
     end
 
     context 'repos' do
@@ -74,11 +74,11 @@ describe 'sensu' do
           context 'default' do
             it { should contain_apt__source('sensu').with(
               :ensure      => 'present',
-              :location    => 'http://repositories.sensuapp.org/apt',
-              :release     => 'sensu',
+              :location    => 'http://sensu.global.ssl.fastly.net/apt',
+              :release     => 'trusty',
               :repos       => 'main',
               :include     => { 'src' => false },
-              :key         => { 'id' => 'EE15CFF6AB6E4E290FDAB681A20F259AEB9C94BB', 'source' => 'http://repositories.sensuapp.org/apt/pubkey.gpg' },
+              :key         => { 'id' => 'EE15CFF6AB6E4E290FDAB681A20F259AEB9C94BB', 'source' => 'https://sensu.global.ssl.fastly.net/apt/pubkey.gpg' },
               :before      => 'Package[sensu]'
             ) }
           end
@@ -139,7 +139,7 @@ describe 'sensu' do
         context 'default' do
           it { should contain_yumrepo('sensu').with(
             :enabled   => 1,
-            :baseurl   => 'http://repositories.sensuapp.org/yum/$releasever/$basearch/',
+            :baseurl   => 'http://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/',
             :gpgcheck  => 0,
             :before    => 'Package[sensu]'
           ) }
