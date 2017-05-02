@@ -46,13 +46,46 @@ class sensu::client::service (
         require => File['C:/opt/sensu/bin/sensu-client.xml'],
       }
 
-    }
+    }else {
 
-    service { 'sensu-client':
-      ensure     => $ensure,
-      enable     => $enable,
-      hasrestart => $hasrestart,
-      subscribe  => [Class['sensu::package'], Class['sensu::client::config'], Class['sensu::rabbitmq::config'] ],
+      case $::operatingsystem {
+          /Debian/: {
+            if $::operatingsystem == 'Ubuntu' and $::operatingsystemmajrelease >= '15.10'{
+              service { 'sensu-client':
+                ensure     => $ensure,
+                provider   => systemd,
+                enable     => $enable,
+                hasrestart => $hasrestart,
+                subscribe  => [ Class['sensu::package'], Class['sensu::client::config'], Class['sensu::rabbitmq::config'] ],
+              }
+            } else {
+              service { 'sensu-client':
+                ensure     => $ensure,
+                enable     => $enable,
+                hasrestart => $hasrestart,
+                subscribe  => [ Class['sensu::package'], Class['sensu::client::config'], Class['sensu::rabbitmq::config'] ],
+              }
+            } 
+          } 
+          default: {
+            service { 'sensu-client':
+              ensure     => $ensure,
+              enable     => $enable,
+              hasrestart => $hasrestart,
+              subscribe  => [ Class['sensu::package'], Class['sensu::client::config'], Class['sensu::rabbitmq::config'] ],
+            }
+          } 
+      }
     }
-  }
 }
+
+
+
+
+
+#    service { 'sensu-client':
+#      ensure     => $ensure,
+#      enable     => $enable,
+#      hasrestart => $hasrestart,
+#      subscribe  => [Class['sensu::package'], Class['sensu::client::config'], Class['sensu::rabbitmq::config'] ],
+   
