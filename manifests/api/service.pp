@@ -33,7 +33,7 @@ class sensu::api::service (
 
     if $::osfamily != 'windows' {
 
-      case $::operatingsystem {
+      case $::osfamily {
         /Debian/: {
           if $::operatingsystem == 'Ubuntu' and $::operatingsystemmajrelease >= '15.10'{
             service { 'sensu-api':
