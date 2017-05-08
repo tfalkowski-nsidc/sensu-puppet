@@ -20,7 +20,7 @@ class sensu::repo::apt {
     if $sensu::repo_source {
       $url = $sensu::repo_source
     } else {
-      $url = 'http://sensu.global.ssl.fastly.net/apt'
+      $url = 'http://sensu.global.ssl.fastly.net/apt/dists'
     }
 
     apt::source { 'sensu':
