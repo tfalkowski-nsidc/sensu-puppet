@@ -209,7 +209,7 @@ define sensu::check(
   }
 
   file { "${conf_dir}/checks/http_checks/${check_name}.json":
-    ensure => $ensure,
+    #ensure => $ensure,
     owner  => $user,
     group  => $group,
     mode   => $file_mode,
