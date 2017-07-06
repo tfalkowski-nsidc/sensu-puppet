@@ -208,7 +208,7 @@ define sensu::check(
     before => Sensu_check[$check_name],
   }
 
-  file { "${conf_dir}/checks/http_checks/${check_name}.json":
+  file { "${conf_dir}/checks/http_checks/*.json":
     #ensure => $ensure,
     owner  => $user,
     group  => $group,
