@@ -105,7 +105,7 @@ class sensu::package {
     ensure  => directory,
     owner   => $sensu::user,
     group   => $sensu::group,
-    mode    => $sensu::dir_mode,
+    #mode    => $sensu::dir_mode,
     purge   => $sensu::_purge_config,
     recurse => true,
     force   => true,
