@@ -208,14 +208,6 @@ define sensu::check(
     before => Sensu_check[$check_name],
   }
 
-  file { "${conf_dir}/checks/http_checks/*.json":
-    #ensure => $ensure,
-    owner  => $user,
-    group  => $group,
-    mode   => $file_mode,
-    # before => Sensu_check[$check_name],
-  }
-
   sensu_check { $check_name:
     ensure              => $ensure,
     base_path           => "${conf_dir}/checks",
